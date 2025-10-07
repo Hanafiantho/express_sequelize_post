@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import Comment from '../models/Comment';
 import Post from '../models/Post';
 import User from '../models/User';
 import { errorResponse, successResponse } from '../utils/response';
@@ -22,6 +23,10 @@ export const getPosts = async (req: Request, res: Response) => {
                     as: 'author',
                     attributes: ['id', 'name', 'email', 'phone'], // only shows id, name, email and phone fields
                 },
+                {
+                    model: Comment,
+                    as: 'comments',
+                },
             ],
         });
 
@@ -35,7 +40,19 @@ export const getPostByID = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        const post = await Post.findByPk(id);
+        const post = await Post.findByPk(id, {
+            include: [
+                {
+                    model: User,
+                    as: 'author',
+                    attributes: ['id', 'name', 'email', 'phone'],
+                },
+                {
+                    model: Comment,
+                    as: 'comments',
+                },
+            ],
+        });
 
         res.status(200).json(successResponse(post));
     } catch (error) {
