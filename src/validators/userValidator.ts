@@ -24,4 +24,12 @@ export const createUserValidator = [
             }
             return true;
         }),
+
+    body('password')
+        .notEmpty()
+        .withMessage('password cannot be empty')
+        .isLength({ min: 6 })
+        .withMessage('password must be at least 6 characters')
+        .matches(/[A-Z]/)
+        .withMessage('password must contain at least one uppercase letter'),
 ];

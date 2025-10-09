@@ -15,6 +15,7 @@
         "format:check": "prettier --check ."
     },
     "dependencies": {
+        "bcrypt": "^6.0.0",
         "dotenv": "^17.2.3",
         "express": "^5.1.0",
         "express-validator": "^7.2.1",
@@ -22,6 +23,7 @@
         "sequelize": "^6.37.7"
     },
     "devDependencies": {
+        "@types/bcrypt": "^6.0.0",
         "@types/express": "^5.0.3",
         "@types/node": "^24.6.1",
         "@types/sequelize": "^6.12.0",
