@@ -35,3 +35,28 @@ export const createUser = async (req: Request, res: Response) => {
         res.status(500).json(errorResponse(err));
     }
 };
+
+export const editUser = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+
+        // get user by id
+        const user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404).json(errorResponse(null, 'user not found'));
+        }
+
+        Object.keys(updates).forEach((key) => {
+            (user as any)[key] = updates[key];
+        });
+        await user.save();
+
+        const { password, ...userData } = user.toJSON();
+
+        res.status(200).json(successResponse(userData));
+    } catch (error) {
+        res.status(500).json(errorResponse(error));
+    }
+};

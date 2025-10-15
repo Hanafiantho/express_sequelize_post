@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUser, getUserByID, getUsers } from '../controllers/userController';
+import { createUser, editUser, getUserByID, getUsers } from '../controllers/userController';
 import { validate } from '../middleware/validate';
 import { createUserValidator } from '../validators/userValidator';
 
@@ -13,5 +13,8 @@ router.get('/:id', getUserByID);
 
 // create user route
 router.post('/', createUserValidator, validate, createUser);
+
+// edit user route
+router.put('/:id', editUser);
 
 export default router;
