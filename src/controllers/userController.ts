@@ -26,7 +26,6 @@ export const getUserByID = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        // const { name, email, phone, about, password } = req.body;
         const user = await User.create(req.body);
 
         const { password, ...userData } = user.toJSON();

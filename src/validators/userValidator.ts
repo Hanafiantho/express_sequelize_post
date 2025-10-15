@@ -31,5 +31,5 @@ export const createUserValidator = [
         .isLength({ min: 6 })
         .withMessage('password must be at least 6 characters')
         .matches(/[A-Z]/)
-        .withMessage('password must contain at least one uppercase letter'),
+        .withMessage('password must be contain at least one uppercase letter'),
 ];
