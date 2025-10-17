@@ -48,6 +48,7 @@ export const editUser = async (req: Request, res: Response) => {
             return res.status(404).json(errorResponse(null, 'user not found'));
         }
 
+        // mapping data from request body
         Object.keys(updates).forEach((key) => {
             (user as any)[key] = updates[key];
         });
