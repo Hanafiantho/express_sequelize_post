@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createComment, getComments } from '../controllers/commentController';
-import { validate } from '../middleware/validate';
+import { validate } from '../middlewares/validate';
 import { createCommentValidator } from '../validators/commentValidator';
 
 const router = Router();

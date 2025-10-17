@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { createPost, getPostByID, getPosts } from '../controllers/postController';
-import { validate } from '../middleware/validate';
+import { authenticate } from '../middlewares/authMiddleware';
+import { validate } from '../middlewares/validate';
 import { createPostValidator } from '../validators/postValidator';
 
 const router = Router();
 
-router.get('/', getPosts);
+router.get('/', authenticate, getPosts);
 
 router.get('/:id', getPostByID);
 
