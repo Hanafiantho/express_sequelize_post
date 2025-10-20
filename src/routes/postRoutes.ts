@@ -8,8 +8,8 @@ const router = Router();
 
 router.get('/', authenticate, getPosts);
 
-router.get('/:id', getPostByID);
+router.get('/:id', authenticate, getPostByID);
 
-router.post('/', createPostValidator, validate, createPost);
+router.post('/', authenticate, createPostValidator, validate, createPost);
 
 export default router;
