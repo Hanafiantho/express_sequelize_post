@@ -8,6 +8,6 @@ const router = Router();
 
 router.get('/', authenticate, getComments);
 
-router.post('/', createCommentValidator, validate, createComment);
+router.post('/', authenticate, createCommentValidator, validate, createComment);
 
 export default router;

@@ -87,10 +87,10 @@ User.init(
 );
 
 User.hasMany(Post, { foreignKey: 'authorId', as: 'posts' });
-Post.belongsTo(User, { foreignKey: 'authorId', as: 'author' });
 User.hasMany(Comment, { foreignKey: 'userId', as: 'comments' });
 Comment.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 Comment.belongsTo(Post, { foreignKey: 'postId', as: 'post' });
+Post.belongsTo(User, { foreignKey: 'authorId', as: 'author' });
 Post.hasMany(Comment, { foreignKey: 'postId', as: 'comments' });
 
 export default User;
