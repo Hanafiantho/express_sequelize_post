@@ -3,7 +3,6 @@ import sequelize from '../config/database';
 
 interface PostAttributes {
     id: number;
-    title: string;
     content: string;
     authorId: number;
     isArchived: boolean;
@@ -15,7 +14,6 @@ type PostCreationAttributes = Optional<PostAttributes, 'id'>;
 
 class Post extends Model<PostAttributes, PostCreationAttributes> implements PostAttributes {
     public id!: number;
-    public title!: string;
     public content!: string;
     public authorId!: number;
     public isArchived!: boolean;
@@ -29,10 +27,6 @@ Post.init(
             type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true,
-        },
-        title: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
         },
         content: {
             type: DataTypes.TEXT,

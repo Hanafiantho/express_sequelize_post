@@ -80,10 +80,9 @@ export const getPostByID = async (req: Request, res: Response) => {
 
 export const createPost = async (req: Request, res: Response) => {
     try {
-        const { title, content, authorId, isArchived } = req.body;
+        const { content, authorId, isArchived } = req.body;
 
         const post = await Post.create({
-            title,
             content,
             authorId,
             isArchived,
