@@ -6,15 +6,19 @@ import { errorResponse, successResponse } from '../utils/response';
 
 export const getPosts = async (req: Request, res: Response) => {
     try {
-        const { authorId } = req.query;
+        const { userId, page = '1', limit = '10' } = req.query;
         const where: any = {};
 
+        const pageNum = parseInt(page as string, 10);
+        const limitNum = parseInt(limit as string, 10);
+        const offset = (pageNum - 1) * limitNum; // for how many records to skip before return results
+
         // find posts by author id
-        if (authorId) {
-            where.authorId = authorId;
+        if (userId) {
+            where.authorId = userId;
         }
 
-        const posts = await Post.findAll({
+        const { rows: posts, count: total } = await Post.findAndCountAll({
             where,
             attributes: { exclude: ['authorId'] }, // exlude field authorId
             include: [
@@ -28,9 +32,23 @@ export const getPosts = async (req: Request, res: Response) => {
                     as: 'comments',
                 },
             ],
+            limit: limitNum,
+            offset,
         });
 
-        res.status(200).json(successResponse(posts));
+        const totalPages = Math.ceil(total / limitNum);
+
+        res.status(200).json(
+            successResponse({
+                data: posts,
+                pagination: {
+                    page: pageNum,
+                    limit: limitNum,
+                    total,
+                    totalPages,
+                },
+            }),
+        );
     } catch (err) {
         res.status(500).json(errorResponse(err));
     }

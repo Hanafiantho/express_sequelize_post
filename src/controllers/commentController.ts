@@ -6,8 +6,12 @@ import { errorResponse, successResponse } from '../utils/response';
 
 export const getComments = async (req: Request, res: Response) => {
     try {
-        const { userId, postId } = req.query;
+        const { userId, postId, page = '1', limit = '10' } = req.query;
         const where: any = {};
+
+        const pageNum = parseInt(page as string, 10);
+        const limitNum = parseInt(limit as string, 10);
+        const offset = (pageNum - 1) * limitNum;
 
         // find comments by user id
         if (userId) {
@@ -19,15 +23,29 @@ export const getComments = async (req: Request, res: Response) => {
             where.postId = postId;
         }
 
-        const comments = await Comment.findAll({
+        const { rows: comments, count: total } = await Comment.findAndCountAll({
             where,
             include: [
                 { model: User, as: 'user', attributes: ['id', 'name'] },
                 { model: Post, as: 'post' },
             ],
+            offset,
+            limit: limitNum,
         });
 
-        res.status(200).json(successResponse(comments));
+        const totalPages = Math.ceil(total / limitNum);
+
+        res.status(200).json(
+            successResponse({
+                data: comments,
+                pagination: {
+                    page: pageNum,
+                    limit: limitNum,
+                    total,
+                    totalPages,
+                },
+            }),
+        );
     } catch (error) {
         res.status(500).json(errorResponse(error));
     }
